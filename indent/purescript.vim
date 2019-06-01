@@ -1,67 +1,63 @@
-" indentation for haskell
+" indentation for purescript
 "
 " author: raichoo (raichoo@googlemail.com)
 "
-" Modify g:haskell_indent_if and g:haskell_indent_case to
+" Modify g:purescript_indent_if and g:purescript_indent_case to
 " change indentation for `if'(default 3) and `case'(default 5).
 " Example (in .vimrc):
-" > let g:haskell_indent_if = 2
+" > let g:purescript_indent_if = 2
 
 if exists('b:did_indent')
   finish
 endif
 
-if get(g:, 'haskell_indent_disable', 0)
-  finish
-endif
-
 let b:did_indent = 1
 
-if !exists('g:haskell_indent_if')
+if !exists('g:purescript_indent_if')
   " if x
   " >>>then ...
   " >>>else ...
-  let g:haskell_indent_if = 3
+  let g:purescript_indent_if = 3
 endif
 
-if !exists('g:haskell_indent_case')
+if !exists('g:purescript_indent_case')
   " case xs of
   " >>[]     -> ...
   " >>(y:ys) -> ...
-  let g:haskell_indent_case = 2
+  let g:purescript_indent_case = 2
 endif
 
-if !exists('g:haskell_indent_let')
+if !exists('g:purescript_indent_let')
   " let x = 0 in
   " >>>>x
   "
   " let x = 0
   "     y = 1
-  let g:haskell_indent_let = 4
+  let g:purescript_indent_let = 4
 endif
 
-if !exists('g:haskell_indent_where')
+if !exists('g:purescript_indent_where')
   " where f :: Int -> Int
   " >>>>>>f x = x
-  let g:haskell_indent_where = 6
+  let g:purescript_indent_where = 6
 endif
 
-if !exists('g:haskell_indent_do')
+if !exists('g:purescript_indent_do')
   " do x <- a
   " >>>y <- b
-  let g:haskell_indent_do = 3
+  let g:purescript_indent_do = 3
 endif
 
-if !exists('g:haskell_indent_in')
+if !exists('g:purescript_indent_in')
   " let x = 1
   " >in x
-  let g:haskell_indent_in = 1
+  let g:purescript_indent_in = 1
 endif
 
-if !exists('g:haskell_indent_guard')
+if !exists('g:purescript_indent_guard')
   " f x y
   " >>|
-  let g:haskell_indent_guard = 2
+  let g:purescript_indent_guard = 2
 endif
 
 setlocal indentexpr=GetHaskellIndent()
@@ -113,7 +109,7 @@ function! s:indentGuard(pos, prevline)
   while l:c >= 1
     if l:s == 0 && strlen(l:l) > 0
       " top-level start, stop looking
-      return g:haskell_indent_guard
+      return g:purescript_indent_guard
     elseif l:l =~ '^\s\+[|,=]\s\+'
       " guard block found
       return match(l:l, '[|,=]')
@@ -121,7 +117,7 @@ function! s:indentGuard(pos, prevline)
       if l:s > 0 && l:s <= a:pos
         " found less deeper indentation (not starting with `,` or `=`)
         " stop looking
-        return l:s + g:haskell_indent_guard
+        return l:s + g:purescript_indent_guard
       endif
     endif
     let l:c -= 1
@@ -195,13 +191,13 @@ function! GetHaskellIndent()
   " let foo =
   " >>>>>>bar
   if l:prevline =~ '\C\<let\>\s\+[^=]\+=\s*$'
-    return match(l:prevline, '\C\<let\>') + g:haskell_indent_let + &shiftwidth
+    return match(l:prevline, '\C\<let\>') + g:purescript_indent_let + &shiftwidth
   endif
 
   " let x = 1 in
   " >>>>x
   if l:prevline =~ '\C\<let\>.\{-}\<in\>\s*$' && l:line !~ '\C^\s*\<in\>'
-    return match(l:prevline, '\C\<let\>') + g:haskell_indent_let
+    return match(l:prevline, '\C\<let\>') + g:purescript_indent_let
   endif
 
   " let x = 1
@@ -221,7 +217,7 @@ function! GetHaskellIndent()
     elseif l:line =~ '\s=\s'
       let l:s = match(l:prevline, '\C\<let\>')
       if s:isSYN('haskellLet', v:lnum - 1, l:s + 1)
-        return l:s + g:haskell_indent_let
+        return l:s + g:purescript_indent_let
       endif
     endif
   endif
@@ -235,7 +231,7 @@ function! GetHaskellIndent()
 
     let l:s = match(l:prevline, '\C\<if\>')
     if l:s > 0
-      return l:s + g:haskell_indent_if
+      return l:s + g:purescript_indent_if
     endif
   endif
 
@@ -243,7 +239,7 @@ function! GetHaskellIndent()
   " >>foo
   "
   if l:prevline =~ '\C\<where\>\s*$'
-    return indent(v:lnum - 1) + get(g:, 'haskell_indent_after_bare_where', &shiftwidth)
+    return indent(v:lnum - 1) + get(g:, 'purescript_indent_after_bare_where', &shiftwidth)
   endif
 
   " do
@@ -260,17 +256,17 @@ function! GetHaskellIndent()
   if l:prevline =~ '\C\<do\>\s\+\S\+.*$'
     let l:s = match(l:prevline, '\C\<do\>')
     if s:isSYN('haskellKeyword', v:lnum - 1, l:s + 1)
-      return l:s + g:haskell_indent_do
+      return l:s + g:purescript_indent_do
     endif
   endif
 
   " case foo of
   " >>bar -> quux
   if l:prevline =~ '\C\<case\>.\+\<of\>\s*$'
-    if get(g:,'haskell_indent_case_alternative', 0)
+    if get(g:,'purescript_indent_case_alternative', 0)
       return indent(v:lnum - 1) + &shiftwidth
     else
-      return match(l:prevline, '\C\<case\>') + g:haskell_indent_case
+      return match(l:prevline, '\C\<case\>') + g:purescript_indent_case
     endif
   endif
 
@@ -288,12 +284,12 @@ function! GetHaskellIndent()
     elseif  l:line =~ '^\s*|\s'
       let l:s = match(l:prevline, '\C\<where\>')
       if s:isSYN('haskellWhere', v:lnum - 1, l:s + 1)
-        return l:s + g:haskell_indent_where + g:haskell_indent_guard
+        return l:s + g:purescript_indent_where + g:purescript_indent_guard
       endif
     else
       let l:s = match(l:prevline, '\C\<where\>')
       if s:isSYN('haskellWhere', v:lnum - 1, l:s + 1)
-        return l:s + g:haskell_indent_where
+        return l:s + g:purescript_indent_where
       endif
     endif
   endif
@@ -384,7 +380,7 @@ function! GetHaskellIndent()
     elseif l:line =~ '\C^\s*\<deriving\>'
       return match(l:prevline, '|')
     elseif l:line !~ '^\s*|'
-      return match(l:prevline, '|') - g:haskell_indent_guard
+      return match(l:prevline, '|') - g:purescript_indent_guard
     endif
   endif
 
@@ -421,10 +417,10 @@ function! GetHaskellIndent()
   " >>where
   if l:line =~ '\C^\s*\<where\>'
     if match(l:prevline, '\C^\s\+in\s\+') == 0
-      return match(l:prevline, 'in') - g:haskell_indent_in
+      return match(l:prevline, 'in') - g:purescript_indent_in
     endif
 
-    return indent(v:lnum - 1) + get(g:, 'haskell_indent_before_where', &shiftwidth)
+    return indent(v:lnum - 1) + get(g:, 'purescript_indent_before_where', &shiftwidth)
   endif
 
   " let x = 1
@@ -444,7 +440,7 @@ function! GetHaskellIndent()
       endif
       let l:c -= 1
     endwhile
-    return l:s + g:haskell_indent_in
+    return l:s + g:purescript_indent_in
   endif
 
   " data Foo

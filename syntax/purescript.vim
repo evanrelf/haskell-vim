@@ -1,19 +1,11 @@
-" syntax highlighting for haskell
-"
-" Heavily modified version of the haskell syntax
-" highlighter to support haskell.
+" syntax highlighting for purescript
 "
 " author: raichoo (raichoo@googlemail.com)
 
-if version < 600
+if v:version < 600
   syn clear
-elseif exists("b:current_syntax")
+elseif exists('b:current_syntax')
   finish
-endif
-
-if get(g:, 'haskell_backpack', 0)
-  syn keyword haskellBackpackStructure unit signature
-  syn keyword haskellBackpackDependency dependency
 endif
 
 syn spell notoplevel
@@ -36,8 +28,7 @@ syn match haskellTypeSig
   \ haskellParens
 syn keyword haskellWhere where
 syn keyword haskellLet let
-syn match HaskellDerive "\<deriving\>\(\s\+\<\(anyclass\|instance\|newtype\|stock\)\>\)\?"
-syn keyword haskellDeclKeyword module class instance newtype in
+syn keyword haskellDeclKeyword module class instance newtype in deriving
 syn match haskellDecl "\<\(type\|data\)\>\s\+\(\<family\>\)\?"
 syn keyword haskellDefault default
 syn keyword haskellImportKeywords import qualified safe as hiding contained
@@ -58,10 +49,7 @@ syn match haskellImport "^\s*\<import\>\s\+\(\<safe\>\s\+\)\?\(\<qualified\>\s\+
   \ haskellBlockComment,
   \ haskellString,
   \ haskellPragma
-syn keyword haskellKeyword do case of
-if get(g:, 'haskell_enable_static_pointers', 0)
-  syn keyword haskellStatic static
-endif
+syn keyword haskellKeyword do ado case of
 syn keyword haskellConditional if then else
 syn match haskellNumber "\<[0-9]\+\>\|\<0[xX][0-9a-fA-F]\+\>\|\<0[oO][0-7]\+\>\|\<0[bB][10]\+\>"
 syn match haskellFloat "\<[0-9]\+\.[0-9]\+\([eE][-+]\=[0-9]\+\)\=\>"
@@ -104,32 +92,8 @@ syn match haskellPreProc "^#.*$"
 syn keyword haskellTodo TODO FIXME contained
 " Treat a shebang line at the start of the file as a comment
 syn match haskellShebang "\%^#!.*$"
-if !get(g:, 'haskell_disable_TH', 0)
-    syn match haskellQuasiQuoted "." containedin=haskellQuasiQuote contained
-    syn region haskellQuasiQuote matchgroup=haskellTH start="\[[_a-zA-Z][a-zA-z0-9._']*|" end="|\]"
-    syn region haskellTHBlock matchgroup=haskellTH start="\[\(d\|t\|p\)\?|" end="|]" contains=TOP
-    syn region haskellTHDoubleBlock matchgroup=haskellTH start="\[||" end="||]" contains=TOP
-endif
-if get(g:, 'haskell_enable_typeroles', 0)
-  syn keyword haskellTypeRoles phantom representational nominal contained
-  syn region haskellTypeRoleBlock matchgroup=haskellTypeRoles start="type\s\+role" end="$" keepend
-    \ contains=
-    \ haskellType,
-    \ haskellTypeRoles
-endif
-if get(g:, 'haskell_enable_quantification', 0)
-  syn keyword haskellForall forall
-endif
-if get(g:, 'haskell_enable_recursivedo', 0)
-  syn keyword haskellRecursiveDo mdo rec
-endif
-if get(g:, 'haskell_enable_arrowsyntax', 0)
-  syn keyword haskellArrowSyntax proc
-endif
-if get(g:, 'haskell_enable_pattern_synonyms', 0)
-  syn keyword haskellPatternKeyword pattern
-endif
-
+syn keyword haskellForall forall
+highlight def link haskellForall Operator
 highlight def link haskellBottom Macro
 highlight def link haskellTH Boolean
 highlight def link haskellIdentifier Identifier
@@ -159,50 +123,14 @@ highlight def link haskellAssocType Type
 highlight def link haskellQuotedType Type
 highlight def link haskellType Type
 highlight def link haskellImportKeywords Include
-if get(g:, 'haskell_classic_highlighting', 0)
-  highlight def link haskellDeclKeyword Keyword
-  highlight def link HaskellDerive Keyword
-  highlight def link haskellDecl Keyword
-  highlight def link haskellWhere Keyword
-  highlight def link haskellLet Keyword
-else
-  highlight def link haskellDeclKeyword Structure
-  highlight def link HaskellDerive Structure
-  highlight def link haskellDecl Structure
-  highlight def link haskellWhere Structure
-  highlight def link haskellLet Structure
-endif
-
-if get(g:, 'haskell_enable_quantification', 0)
-  highlight def link haskellForall Operator
-endif
-if get(g:, 'haskell_enable_recursivedo', 0)
-  highlight def link haskellRecursiveDo Keyword
-endif
-if get(g:, 'haskell_enable_arrowsyntax', 0)
-  highlight def link haskellArrowSyntax Keyword
-endif
-if get(g:, 'haskell_enable_static_pointers', 0)
-  highlight def link haskellStatic Keyword
-endif
-if get(g:, 'haskell_classic_highlighting', 0)
-  if get(g:, 'haskell_enable_pattern_synonyms', 0)
-    highlight def link haskellPatternKeyword Keyword
-  endif
-  if get(g:, 'haskell_enable_typeroles', 0)
-    highlight def link haskellTypeRoles Keyword
-  endif
-else
-  if get(g:, 'haskell_enable_pattern_synonyms', 0)
-    highlight def link haskellPatternKeyword Structure
-  endif
-  if get(g:, 'haskell_enable_typeroles', 0)
-    highlight def link haskellTypeRoles Structure
-  endif
-endif
-
-if get(g:, 'haskell_backpack', 0)
-  highlight def link haskellBackpackStructure Structure
-  highlight def link haskellBackpackDependency Include
-endif
-let b:current_syntax = "haskell"
+highlight def link haskellDeclKeyword Structure
+highlight def link HaskellDerive Structure
+highlight def link haskellDecl Structure
+highlight def link haskellWhere Structure
+highlight def link haskellLet Structure
+highlight def link haskellDeclKeyword Structure
+highlight def link haskellDecl Structure
+highlight def link haskellWhere Structure
+highlight def link haskellLet Structure
+highlight def link haskellForall Operator
+let b:current_syntax = 'purescript'
