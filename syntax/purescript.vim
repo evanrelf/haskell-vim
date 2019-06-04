@@ -58,7 +58,7 @@ syn region haskellParens matchgroup=haskellDelimiter start="(" end=")" contains=
 syn region haskellBrackets matchgroup=haskellDelimiter start="\[" end="]" contains=TOP,haskellTypeSig,@Spell
 syn region haskellBlock matchgroup=haskellDelimiter start="{" end="}" contains=TOP,@Spell
 syn keyword haskellInfix infix infixl infixr
-syn keyword haskellBottom undefined error
+" syn keyword haskellBottom undefined error
 syn match haskellOperators "[-!#$%&\*\+/<=>\?@\\^|~:.]\+\|\<_\>"
 syn match haskellQuote "\<'\+" contained
 syn match haskellQuotedType "[A-Z][a-zA-Z0-9_']*\>" contained
