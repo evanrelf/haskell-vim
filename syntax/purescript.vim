@@ -28,7 +28,7 @@ syn match haskellTypeSig
   \ haskellParens
 syn keyword haskellWhere where
 syn keyword haskellLet let
-syn keyword haskellDeclKeyword module class instance newtype in deriving
+syn keyword haskellDeclKeyword module class instance newtype in deriving derive
 syn match haskellDecl "\<\(type\|data\)\>\s\+\(\<family\>\)\?"
 syn keyword haskellDefault default
 syn keyword haskellImportKeywords import qualified safe as hiding contained
