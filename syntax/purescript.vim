@@ -88,7 +88,6 @@ syn region haskellBlockComment start="{-" end="-}"
   \ @Spell
 syn region haskellPragma start="{-#" end="#-}"
 syn region haskellLiquid start="{-@" end="@-}"
-syn match haskellPreProc "^#.*$"
 syn keyword haskellTodo TODO FIXME contained
 " Treat a shebang line at the start of the file as a comment
 syn match haskellShebang "\%^#!.*$"
@@ -118,7 +117,6 @@ highlight def link haskellChar String
 highlight def link haskellBacktick Operator
 highlight def link haskellQuasiQuoted String
 highlight def link haskellTodo Todo
-highlight def link haskellPreProc PreProc
 highlight def link haskellAssocType Type
 highlight def link haskellQuotedType Type
 highlight def link haskellType Type
